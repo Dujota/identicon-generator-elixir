@@ -7,8 +7,11 @@ defmodule Identicon do
 
   def hash_input(input) do
     # produces a string of #s <<114, 179, 2, 191, 41, 122, 34, 138, 117, 115, 1, 35, 239, 239, 124, 65>>
-    :crypto.hash(:md5, input)
-    |> :binary.bin_to_list()
+    hex =
+      :crypto.hash(:md5, input)
+      |> :binary.bin_to_list()
+
+    %Identicon.Image{hex: hex}
   end
 
   # figure out a way to store raw(model level data) that powers our app, we use the --> struct : it is a map that is used to store data in an elixir app
