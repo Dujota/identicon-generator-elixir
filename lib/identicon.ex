@@ -2,7 +2,15 @@ defmodule Identicon do
   def main(input) do
     # start off with the value passed in which basically initialized our string of calls witht he variable as the initial value
     input
-    |> hash_input()
+    |> hash_input
+    |> pick_color
+  end
+
+  def pick_color(%Identicon.Image{hex: [r, g, b | _rest]} = image) do
+    # pattern match for the struct and the key which happens to be a list
+
+    # we do not modify exisiting data, alays create a new record with new properties + old struct data
+    %Identicon.Image{image | color: {r, g, b}}
   end
 
   def hash_input(input) do

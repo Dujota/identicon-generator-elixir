@@ -3,5 +3,5 @@
 
 defmodule Identicon.Image do
   # defines struct and has a single k:v of nil
-  defstruct hex: nil
+  defstruct hex: nil, color: nil
 end
