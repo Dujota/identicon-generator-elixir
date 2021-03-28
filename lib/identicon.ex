@@ -5,6 +5,13 @@ defmodule Identicon do
     |> hash_input
     |> pick_color
     |> build_grid
+    |> filter_odd_squares
+  end
+
+  def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
+    Enum.filter(grid, fn {code, _index} ->
+      rem(code, 2) == 0
+    end)
   end
 
   # called with the image struct (it gets passed down from the pipe operator)
