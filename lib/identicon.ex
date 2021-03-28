@@ -9,16 +9,21 @@ defmodule Identicon do
 
   # called with the image struct (it gets passed down from the pipe operator)
   def build_grid(%Identicon.Image{hex: hex} = image) do
-    hex
-    |> Enum.chunk_every(3, 3, :discard)
-    # &referenceFunction/arg#
-    # will work on each row of the chuncked array to transform and return a new row that we will use in a NEW LIST
-    |> Enum.map(&mirror_row/1)
-    # takes a nested list and flattens it into a single list
-    # we are doing this so we dont have to do a double loop into order to transform this
-    |> List.flatten()
-    # we use this function to create a list with a tuple of [{item, index}]
-    |> Enum.with_index()
+    # save the result of this pipe operator into a variable
+    grid =
+      hex
+      |> Enum.chunk_every(3, 3, :discard)
+      # &referenceFunction/arg#
+      # will work on each row of the chuncked array to transform and return a new row that we will use in a NEW LIST
+      |> Enum.map(&mirror_row/1)
+      # takes a nested list and flattens it into a single list
+      # we are doing this so we dont have to do a double loop into order to transform this
+      |> List.flatten()
+      # we use this function to create a list with a tuple of [{item, index}]
+      |> Enum.with_index()
+
+    # finally update the image struct to our new grid property and all prev props
+    %Identicon.Image{image | grid: grid}
   end
 
   def mirror_row([first, second | _rest] = row) do
